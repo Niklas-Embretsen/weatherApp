@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Väderapplikation</title>
-    <style>
+    <!-- <style>
         #currentDay_Div {
             border:solid red 2px;
         }
@@ -71,30 +71,9 @@
         .weatherSymbolParagraph {
             font-size: 2em;
         }
-    </style>
-    <!-- <script src="https://kit.fontawesome.com/1a7a87885b.js" crossorigin='anonymous'></script> -->
+    </style> -->
     <script src="https://kit.fontawesome.com/1a7a87885b.js" crossorigin="anonymous"></script>
-    <script>
-        // window.onload = function() {
-        //     let locations = document.querySelectorAll("div.location");
-        //     function setColorToPurple(element) {
-        //         element.style.color = "purple";
-        //     }
-        //     for(let location of locations) {
-        //         location.onclick = function() {setColorToPurple(location);}
-        //     }
-        // }
-        // window.onload = function() {
-        // var anchors = document.querySelectorAll('div.location');
-        // for(var i = 0; i < anchors.length; i++) {
-        //     var anchor = anchors[i];
-        //     anchor.onclick = function() {
-        //         alert('ho ho ho');
-        //         anchor.style.color = "purple";
-        //     }
-        // }
-    // }
-    </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body onload="loadLocations_FromLocalStorage();loadWeatherData_ForCurrentLocation_OnLoad();" onunload="saveLocations_ToLocalStorage()">
     <img id="cloud-sun-img" src="scaled down pictures/cloud-sun.jpg" alt="cloud-sun-img" hidden>
@@ -105,8 +84,6 @@
     <img id="snow-img" src="scaled down pictures/snow.jpg" alt="snow-img" hidden>
     <img id="thunder-img" src="scaled down pictures/thunder.jpg" alt="thunder-img" hidden>
 
-    <!-- <h2 id="current_Location"></h2>
-    <h2 id="current_Coordinates"></h2> -->
     <div id="weatherDiv_CurrentDay" class="forecastDiv">
 
         <div id="currentDay_Div">
@@ -158,54 +135,21 @@
         <div id="savedLocations_Flexbox"></div>
     </div>
     
-    
-    <!-- <div class="location_Container">
-        <div class="location">testing location</div>
-        <div class="location">testing location2</div>
-    </div> -->
-    <!-- <a href="https://google.com">google</a> -->
-    <!-- <p id="test" -->
-    <!--#region testparagraphs-->
-    <!-- <p id="test_GetValidTimeFrom_TimeSeriesElement"></p>
-    <p id="test_GetWeekdayFrom_DateObj"></p>
-    <p id="test_GetLongitudeFrom_WeatherObj"></p>
-    <p id="test_GetLatitudeFrom_WeatherObj"></p>
-    <p id="test_getTemperatureFrom_TimeSeriesElement"></p>
-    <p id="test_GetWindSpeedFrom_TimeSeriesElement"></p>
-    <p id="test_GetWeatherSymbolFrom_TimeSeriesElement"></p>
-    <p id="test_CreateWeaterDiv"></p>
-    <p id="test_RetrieveWeatherData"></p>
-    <p id="testInnerHTML_Equal_Icon"></p>
-    <a href="javascript:alert(`bakåtfnuttar`)">testar link med javascript</a><br>
-    <i class='fas fa-bolt'></i><br>
-    <p id="testGroupingOf_TimeSeriesIndex"></p>
-    <p id="test_GetIndexesWhere_ValidTimeIs12"></p> -->
-    <button type="button" onclick="saveLocations_ToLocalStorage()">save locations to local storage</button>
-    <button type="button" onclick="loadLocations_FromLocalStorage()">load locations from local storage</button>
-    <!-- <button type="button" onclick="writeSavedLocations_InConsole()">write stored locations in console</button> -->
-    <!-- <i class='fas fa-cloud-meatball'></i><br>
-    <i class='fas fa-cloud-sun'></i><br>
-    <i class="fa-solid fa-snowflake"></i><br>
-    <i class="fas fa-cloud"></i> -->
+    <!--#region TestHTML-->
+    <h3>Test buttons</h3>
+    <button type="button" onclick="saveLocations_ToLocalStorage()">save locations to local storage</button><br>
+    <button type="button" onclick="loadLocations_FromLocalStorage()">load locations from local storage</button><br>
+    <button type="button" onclick="paintSun_InCanvas()">Paint sun in canvas</button>
+    <!--#endregion-->
 
-    <!-- <script>
-        function changeParagraph() {
-            document.getElementById(`test_RetrieveWeatherData`).innerHTML = `ändrad paragraph med länk`;
-        }
-        // changeParagraph();
-    </script>
-    <script>
-        
-        // getWeatherIcon_From_WeatherSymbolNumber
-    </script> -->
-    
+    <!--#region testJavascript-->
+    <script src="testFunctions.js"></script>
     <!--#endregion-->
     
     <script src="canvas_Functions.js"></script>
     <script src="constructSmallWeatherDiv.js"></script>
     <script src="create locationClassObj.js"></script>
     <script src="detailedWeather_Checkbox.js"></script>
-    <!-- <script src="functions that retrive weatherData.js"></script> -->
     <script src="getFunctions for weatherData.js"></script>
     <script src="global variables.js"></script>
     <script src="groupFunctions for weatherObj.js"></script>
@@ -215,43 +159,7 @@
     <script src="maxMinTemperature.js"></script>
     <script src="removeSelectedLocations.js"></script>
     <script src="saveSelectedLocation.js"></script>
-    <!-- <script src="updateWeatherData.js"></script> -->
     <script src="updating weatherData.js"></script>
-    
-    
-    
-    
-    <!--#region testScript-->
-    <script>
-        // saveSelected_Location();
-        // retrieveWeatherData();
-        // document.getElementById("testInnerHTML_Equal_Icon").innerHTML = "testInnerHTML_Equal_Icon = ";
-        //     // "testar getWeatherIcon_From_WeatherSymbolNumber(15) = " + 
-        //     // // "<i class='fas fa-bolt'></i>";
-        //     // getWeatherIcon_From_WeatherSymbolNumber(15);
-        // function addWeatherSymbolTo_Paragraph(numb){
-        //     document.getElementById("testInnerHTML_Equal_Icon").innerHTML += getWeatherIcon_From_WeatherSymbolNumber(numb) + " ";
-        // }
-        // for(let i=1; i<28; i++){
-        //     addWeatherSymbolTo_Paragraph(i);
-        // }
 
-        // closureFunction = (function(){
-        //     let i = 1;
-        //     return function() {
-        //         paintCanvas_From_WeatherSymbolNumber(i);
-        //         if(i!=27){
-        //             i++;
-        //         }
-        //         else {
-        //             i=1;
-        //         }
-        //     }
-        // })()
-        // paintCanvas_From_WeatherSymbolNumber(21);
-        updateWeatherData(14, 55, "Nyköping");
-        
-    </script>
-    <!--#endregion-->
 </body>
 </html>
