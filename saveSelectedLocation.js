@@ -1,26 +1,4 @@
 function saveSelected_Location() {
-    //#region antagligen onödig kod
-    // //#region get longitude and latitude
-    // let coordinatesParagraph = document.querySelector("#weatherDiv_CurrentDay .coordinates_CurrentDay");
-    // let coordinateText = coordinatesParagraph.innerHTML;
-
-    // //Select second line in coordinatesParagraph where the numerical values of longitude and latitude is stored.
-    // coordinateText = coordinateText.split("<br>")[1];
-
-    // //remove the paranthesis in the coordinateText
-    // coordinateText = coordinateText.slice(1, coordinateText.length - 1);
-    
-    // let coordinates = coordinateText.split(",");
-    // longitude = coordinates[0];
-    // latitude = coordinates[1];
-    // //#endregion
-
-    // //#region get location
-    // let locationParagraph = document.querySelector("#weatherDiv_CurrentDay .location_CurrentDay");
-    // let location = locationParagraph.innerHTML;
-    // //#
-    //#endregion
-
     //#region get longitude, latitude and location from global variable "currentLocation_Glob".
     let longitude = currentLocation_Glob.longitude;
     let latitude = currentLocation_Glob.latitude;
