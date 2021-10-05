@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Väderapplikation</title>
+    <style>
+        #currentDay_Div {
+            border:solid red 2px;
+        }
+        #inputForm {
+            text-align:left;
+        }
+        #inputForm input, #inputForm button {
+            
+            margin:2px;
+        }
+        #maxTemperature_CurrentDay {
+            display:none;
+        }
+        #minTemperature_CurrentDay {
+            display:none;
+        }
+        #removeSelectedLocations_Button {
+            position:absolute;
+            top:5px;
+            right:5px;
+
+        }
+        #savedLocations_Container {
+            position:relative;
+            text-align: center;
+            border:solid black 2px;
+            padding:5px;
+        }
+        #savedLocations_Flexbox {
+            
+            display:flex;
+            justify-content:space-around;
+            flex-wrap:wrap;
+        }
+        #savedLocations_Flexbox div {
+            padding:5px;
+            border:solid red 1px;
+            margin:5px;
+        }
+        #weatherCanvas {
+            border:2px solid black;
+        }
+        .weatherDiv {
+            margin:10px;
+            padding: 5px;
+            border: solid red 2px;
+            text-align: center;
+        }
+        #weatherDivContainer {
+            display:none;
+            justify-content:space-between;
+            border: solid black 2px;
+        }
+        #weatherDiv_CurrentDay {
+            border:solid black 2px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            text-align:center;
+            margin:5px;
+            padding:5px;
+        }
+        .weatherSymbolParagraph {
+            font-size: 2em;
+        }
+    </style>
+    <!-- <script src="https://kit.fontawesome.com/1a7a87885b.js" crossorigin='anonymous'></script> -->
+    <script src="https://kit.fontawesome.com/1a7a87885b.js" crossorigin="anonymous"></script>
+    <script>
+        // window.onload = function() {
+        //     let locations = document.querySelectorAll("div.location");
+        //     function setColorToPurple(element) {
+        //         element.style.color = "purple";
+        //     }
+        //     for(let location of locations) {
+        //         location.onclick = function() {setColorToPurple(location);}
+        //     }
+        // }
+        // window.onload = function() {
+        // var anchors = document.querySelectorAll('div.location');
+        // for(var i = 0; i < anchors.length; i++) {
+        //     var anchor = anchors[i];
+        //     anchor.onclick = function() {
+        //         alert('ho ho ho');
+        //         anchor.style.color = "purple";
+        //     }
+        // }
+    // }
+    </script>
+</head>
+<body onload="loadLocations_FromLocalStorage();loadWeatherData_ForCurrentLocation_OnLoad();" onunload="saveLocations_ToLocalStorage()">
+    <img id="cloud-sun-img" src="scaled down pictures/cloud-sun.jpg" alt="cloud-sun-img" hidden>
+    <img id="forest-fog-2-img" src="scaled down pictures/forest-fog-2.jpg" alt="forest-fog-2-img" hidden>
+    <img id="heavy rain-img" src="scaled down pictures/heavy rain.jpg" alt="heavy rain-img" hidden>
+    <img id="overcast-img" src="scaled down pictures/overcast.jpg" alt="overcast-img" hidden>
+    <img id="rain-img" src="scaled down pictures/rain.jpg" alt="rain-img" hidden>
+    <img id="snow-img" src="scaled down pictures/snow.jpg" alt="snow-img" hidden>
+    <img id="thunder-img" src="scaled down pictures/thunder.jpg" alt="thunder-img" hidden>
+
+    <!-- <h2 id="current_Location"></h2>
+    <h2 id="current_Coordinates"></h2> -->
+    <div id="weatherDiv_CurrentDay" class="forecastDiv">
+
+        <div id="currentDay_Div">
+            <p id="date_CurrentDay">weekday YYYY-MM-DD</p>
+            <p id="time_CurrentDay">HH:MM</p>
+            <p id="location_CurrentDay">location</p>
+            <p id="coordinates_CurrentDay">(longitude, latitude)=(x, y)</p>
+            <p id="temp_CurrentDay">temperature</p>
+            <p id="windspeed_CurrentDay">windspeed</p>
+            <p id="minTemperature_CurrentDay">mintemperature</p>
+            <p id="maxTemperature_CurrentDay">maxtemperature</p>
+        </div>
+
+        <div>
+            <canvas id="weatherCanvas" height="200" width="200"></canvas>
+        </div>
+
+        <div>
+            <form id="inputForm">
+                <fieldset>
+                    <legend>Location for forecast</legend>
+        
+                    <input type="number" id="longitude" name="longitude">
+                    <label for="longitude">Longitude</label><br>
+        
+                    <input type="number" id="latitude" name="latitude">
+                    <label for="latitude">Latitude</label><br>
+        
+                    <input type="text" id="location_InputField" name="location_InputField">
+                    <label for="location_InputField">name of location</label><br>
+
+                    <button type="button" onclick="updateWeatherData_WithInputFields()">get weather-data</button><br>
+                    <button type="button" onclick="loadWeatherData_ForCurrentLocation_OnClick()">get weather-data from your current location</button><br>
+                    <button type="button" onclick="saveSelected_Location()">save selected location</button><br>
+
+                    <input type="checkbox" id="detailedWeather" name="detailedWeather" onchange="detailedWeatherFunc_ForCheckbox(this)">
+                    <label for="detailedWeather">Detailed wheaterforecast</label>
+                </fieldset>
+            </form>
+        </div>
+     
+    </div>
+
+    <div id="weatherDivContainer" ></div>
+
+    <div id="savedLocations_Container">
+        <button id="removeSelectedLocations_Button" type="button" onclick="removeSelectedLocations()">Remove selected locations</button>
+        <h3 style="text-align:center;width:100%;">Saved Location (longitude, latitude)</h3>
+        <div id="savedLocations_Flexbox"></div>
+    </div>
+    
+    
+    <!-- <div class="location_Container">
+        <div class="location">testing location</div>
+        <div class="location">testing location2</div>
+    </div> -->
+    <!-- <a href="https://google.com">google</a> -->
+    <!-- <p id="test" -->
+    <!--#region testparagraphs-->
+    <!-- <p id="test_GetValidTimeFrom_TimeSeriesElement"></p>
+    <p id="test_GetWeekdayFrom_DateObj"></p>
+    <p id="test_GetLongitudeFrom_WeatherObj"></p>
+    <p id="test_GetLatitudeFrom_WeatherObj"></p>
+    <p id="test_getTemperatureFrom_TimeSeriesElement"></p>
+    <p id="test_GetWindSpeedFrom_TimeSeriesElement"></p>
+    <p id="test_GetWeatherSymbolFrom_TimeSeriesElement"></p>
+    <p id="test_CreateWeaterDiv"></p>
+    <p id="test_RetrieveWeatherData"></p>
+    <p id="testInnerHTML_Equal_Icon"></p>
+    <a href="javascript:alert(`bakåtfnuttar`)">testar link med javascript</a><br>
+    <i class='fas fa-bolt'></i><br>
+    <p id="testGroupingOf_TimeSeriesIndex"></p>
+    <p id="test_GetIndexesWhere_ValidTimeIs12"></p> -->
+    <button type="button" onclick="saveLocations_ToLocalStorage()">save locations to local storage</button>
+    <button type="button" onclick="loadLocations_FromLocalStorage()">load locations from local storage</button>
+    <!-- <button type="button" onclick="writeSavedLocations_InConsole()">write stored locations in console</button> -->
+    <!-- <i class='fas fa-cloud-meatball'></i><br>
+    <i class='fas fa-cloud-sun'></i><br>
+    <i class="fa-solid fa-snowflake"></i><br>
+    <i class="fas fa-cloud"></i> -->
+
+    <!-- <script>
+        function changeParagraph() {
+            document.getElementById(`test_RetrieveWeatherData`).innerHTML = `ändrad paragraph med länk`;
+        }
+        // changeParagraph();
+    </script>
+    <script>
+        
+        // getWeatherIcon_From_WeatherSymbolNumber
+    </script> -->
+    
+    <!--#endregion-->
+    
+    <script src="canvas_Functions.js"></script>
+    <script src="constructSmallWeatherDiv.js"></script>
+    <script src="create locationClassObj.js"></script>
+    <script src="detailedWeather_Checkbox.js"></script>
+    <!-- <script src="functions that retrive weatherData.js"></script> -->
+    <script src="getFunctions for weatherData.js"></script>
+    <script src="global variables.js"></script>
+    <script src="groupFunctions for weatherObj.js"></script>
+    <script src="loadWeatherData_CurrentLoc.js"></script>
+    <script src="localStorageFunctions.js"></script>
+    <script src="location class.js"></script>
+    <script src="maxMinTemperature.js"></script>
+    <script src="removeSelectedLocations.js"></script>
+    <script src="saveSelectedLocation.js"></script>
+    <!-- <script src="updateWeatherData.js"></script> -->
+    <script src="updating weatherData.js"></script>
+    
+    
+    
+    
+    <!--#region testScript-->
+    <script>
+        // saveSelected_Location();
+        // retrieveWeatherData();
+        // document.getElementById("testInnerHTML_Equal_Icon").innerHTML = "testInnerHTML_Equal_Icon = ";
+        //     // "testar getWeatherIcon_From_WeatherSymbolNumber(15) = " + 
+        //     // // "<i class='fas fa-bolt'></i>";
+        //     // getWeatherIcon_From_WeatherSymbolNumber(15);
+        // function addWeatherSymbolTo_Paragraph(numb){
+        //     document.getElementById("testInnerHTML_Equal_Icon").innerHTML += getWeatherIcon_From_WeatherSymbolNumber(numb) + " ";
+        // }
+        // for(let i=1; i<28; i++){
+        //     addWeatherSymbolTo_Paragraph(i);
+        // }
+
+        // closureFunction = (function(){
+        //     let i = 1;
+        //     return function() {
+        //         paintCanvas_From_WeatherSymbolNumber(i);
+        //         if(i!=27){
+        //             i++;
+        //         }
+        //         else {
+        //             i=1;
+        //         }
+        //     }
+        // })()
+        // paintCanvas_From_WeatherSymbolNumber(21);
+        updateWeatherData(14, 55, "Nyköping");
+        
+    </script>
+    <!--#endregion-->
+</body>
+</html>
