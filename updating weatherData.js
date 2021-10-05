@@ -51,7 +51,7 @@ function updateSmall_WeatherDivs(weatherObj){
     let indexesTimeSeries_Time12 = getIndexes_WhereValidTimeIs12(weatherObj);
     //#endregion
     
-    //#region (Find indexes of timeSeries)  (Where the time is 12:00) (From day1 until day2)
+    //#region (Find indexes of timeSeries)  (Where the time is 12:00) (From day2 until day6)
     let timeSeriesIndexes_Time12_Day2UntilDay6;
     if(hours_FirstTimeSeries <= 12){
         timeSeriesIndexes_Time12_Day2UntilDay6 = indexesTimeSeries_Time12.slice(1, 6);
