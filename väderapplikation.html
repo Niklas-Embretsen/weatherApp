@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Väderapplikation</title>
+    <script src="https://kit.fontawesome.com/1a7a87885b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadLocations_FromLocalStorage();loadWeatherData_ForCurrentLocation_OnLoad();" onunload="saveLocations_ToLocalStorage()">
+    <!--#region weather pictures-->
+    <img id="cloud-sun-img" src="scaled down pictures/cloud-sun.jpg" alt="cloud-sun-img" hidden>
+    <img id="forest-fog-2-img" src="scaled down pictures/forest-fog-2.jpg" alt="forest-fog-2-img" hidden>
+    <img id="heavy rain-img" src="scaled down pictures/heavy rain.jpg" alt="heavy rain-img" hidden>
+    <img id="overcast-img" src="scaled down pictures/overcast.jpg" alt="overcast-img" hidden>
+    <img id="rain-img" src="scaled down pictures/rain.jpg" alt="rain-img" hidden>
+    <img id="snow-img" src="scaled down pictures/snow.jpg" alt="snow-img" hidden>
+    <img id="thunder-img" src="scaled down pictures/thunder.jpg" alt="thunder-img" hidden>
+    <!--#endregion-->
+
+    <div id="weatherDiv_CurrentDay" class="forecastDiv">
+
+        <div id="currentDay_Div">
+            <p id="date_CurrentDay">weekday YYYY-MM-DD</p>
+            <p id="time_CurrentDay">HH:MM</p>
+            <p id="location_CurrentDay">location</p>
+            <p id="coordinates_CurrentDay">(longitude, latitude)=(x, y)</p>
+            <p id="temp_CurrentDay">temperature</p>
+            <p id="windspeed_CurrentDay">windspeed</p>
+            <p id="minTemperature_CurrentDay">mintemperature</p>
+            <p id="maxTemperature_CurrentDay">maxtemperature</p>
+        </div>
+
+        <div>
+            <canvas id="weatherCanvas" height="200" width="200"></canvas>
+        </div>
+
+        <div>
+            <form id="inputForm">
+                <fieldset>
+                    <legend>Location for forecast</legend>
+        
+                    <input type="number" id="longitude" name="longitude">
+                    <label for="longitude">Longitude</label><br>
+        
+                    <input type="number" id="latitude" name="latitude">
+                    <label for="latitude">Latitude</label><br>
+        
+                    <input type="text" id="location_InputField" name="location_InputField">
+                    <label for="location_InputField">name of location</label><br>
+
+                    <button type="button" onclick="updateWeatherData_WithInputFields()">get weather-data</button><br>
+                    <button type="button" onclick="loadWeatherData_ForCurrentLocation_OnClick()">get weather-data from your current location</button><br>
+                    <button type="button" onclick="saveSelected_Location()">save selected location</button><br>
+
+                    <input type="checkbox" id="detailedWeather" name="detailedWeather" onchange="detailedWeatherFunc_ForCheckbox(this)">
+                    <label for="detailedWeather">Detailed wheaterforecast</label>
+                </fieldset>
+            </form>
+        </div>
+     
+    </div>
+
+    <div id="weatherDivContainer"></div>
+
+    <div id="savedLocations_Container">
+        <button id="removeSelectedLocations_Button" type="button" onclick="removeSelectedLocations()">Remove selected locations</button>
+        <h3 style="text-align:center;width:100%;">Saved Location (longitude, latitude)</h3>
+        <div id="savedLocations_Flexbox"></div>
+    </div>
+    
+    <!--#region TestHTML-->
+    <h3>Test buttons</h3>
+    <button type="button" onclick="saveLocations_ToLocalStorage()">save locations to local storage</button><br>
+    <button type="button" onclick="loadLocations_FromLocalStorage()">load locations from local storage</button><br>
+    <button type="button" onclick="paintSun_InCanvas()">Paint sun in canvas</button>
+    <!--#endregion-->
+
+    <!--#region testJavascript-->
+    <script src="testFunctions.js"></script>
+    <!--#endregion-->
+    
+    <!--#region scripts-->
+    <script src="canvas_Functions.js"></script>
+    <script src="constructSmallWeatherDiv.js"></script>
+    <script src="create locationClassObj.js"></script>
+    <script src="detailedWeather_Checkbox.js"></script>
+    <script src="getFunctions for weatherData.js"></script>
+    <script src="global variables.js"></script>
+    <script src="groupFunctions for weatherObj.js"></script>
+    <script src="loadWeatherData_CurrentLoc.js"></script>
+    <script src="localStorageFunctions.js"></script>
+    <script src="location class.js"></script>
+    <script src="maxMinTemperature.js"></script>
+    <script src="removeSelectedLocations.js"></script>
+    <script src="saveSelectedLocation.js"></script>
+    <script src="updating weatherData.js"></script>
+    <!--#endregion-->
+
+</body>
+</html>
