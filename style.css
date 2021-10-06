@@ -47,6 +47,7 @@
 #weatherDivContainer {
   display: none;
   justify-content: space-between;
+  flex-wrap: wrap;
   border: solid black 2px;
 }
 #weatherDiv_CurrentDay {
@@ -54,6 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   text-align: center;
   margin: 5px;
   padding: 5px;
