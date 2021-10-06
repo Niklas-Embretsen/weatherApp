@@ -76,6 +76,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="loadLocations_FromLocalStorage();loadWeatherData_ForCurrentLocation_OnLoad();" onunload="saveLocations_ToLocalStorage()">
+    <!--#region weather pictures-->
     <img id="cloud-sun-img" src="scaled down pictures/cloud-sun.jpg" alt="cloud-sun-img" hidden>
     <img id="forest-fog-2-img" src="scaled down pictures/forest-fog-2.jpg" alt="forest-fog-2-img" hidden>
     <img id="heavy rain-img" src="scaled down pictures/heavy rain.jpg" alt="heavy rain-img" hidden>
@@ -83,6 +84,7 @@
     <img id="rain-img" src="scaled down pictures/rain.jpg" alt="rain-img" hidden>
     <img id="snow-img" src="scaled down pictures/snow.jpg" alt="snow-img" hidden>
     <img id="thunder-img" src="scaled down pictures/thunder.jpg" alt="thunder-img" hidden>
+    <!--#endregion-->
 
     <div id="weatherDiv_CurrentDay" class="forecastDiv">
 
@@ -127,7 +129,7 @@
      
     </div>
 
-    <div id="weatherDivContainer" ></div>
+    <div id="weatherDivContainer"></div>
 
     <div id="savedLocations_Container">
         <button id="removeSelectedLocations_Button" type="button" onclick="removeSelectedLocations()">Remove selected locations</button>
@@ -146,6 +148,7 @@
     <script src="testFunctions.js"></script>
     <!--#endregion-->
     
+    <!--#region scripts-->
     <script src="canvas_Functions.js"></script>
     <script src="constructSmallWeatherDiv.js"></script>
     <script src="create locationClassObj.js"></script>
@@ -160,6 +163,7 @@
     <script src="removeSelectedLocations.js"></script>
     <script src="saveSelectedLocation.js"></script>
     <script src="updating weatherData.js"></script>
+    <!--#endregion-->
 
 </body>
 </html>
