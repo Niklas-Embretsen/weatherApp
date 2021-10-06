@@ -3,6 +3,7 @@ function drawSun_InCanvas(sun_XPos, sun_YPos, sunRadius, rayNumber, rayLength, c
     var canv = document.getElementById(canvasId);
     var canvas_Context = canv.getContext("2d");
     //#endregion
+    //en extra kommentar
 
     //#region Paint sun border black
     canvas_Context.beginPath();
