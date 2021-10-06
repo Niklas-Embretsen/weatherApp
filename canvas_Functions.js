@@ -5,6 +5,8 @@ function drawSun_InCanvas(sun_XPos, sun_YPos, sunRadius, rayNumber, rayLength, c
     //#endregion
     //asdasd
     //asdasf
+    var testvar;
+    //asasgasdf
 
     //#region Paint sun border black
     canvas_Context.beginPath();
