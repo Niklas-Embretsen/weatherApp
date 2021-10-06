@@ -7,6 +7,7 @@ function drawSun_InCanvas(sun_XPos, sun_YPos, sunRadius, rayNumber, rayLength, c
     //asdasf
     var testvar;
     //asasgasdf
+    //testar commit
 
     //#region Paint sun border black
     canvas_Context.beginPath();
