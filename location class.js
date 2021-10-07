@@ -5,5 +5,3 @@ class locationClass {
         this.locationName = _locationName;
     }
 }
-
-//testing
