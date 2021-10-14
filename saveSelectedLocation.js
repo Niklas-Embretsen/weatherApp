@@ -17,7 +17,7 @@ function saveLocation(longitude, latitude, locationName){
 
     //#region Creating link
     let linkLocation = document.createElement("a");
-    let href_LinkLocation = `javascript:updateWeatherData(${longitude}, ${latitude}, "${locationName}")`;
+    let href_LinkLocation = `javascript:update_Weather_LongLat(${longitude}, ${latitude})`;
     let innerHTML_LinkLocation = `${locationName} (${longitude}, ${latitude})`;
 
     linkLocation.setAttribute("href", href_LinkLocation);

@@ -3,7 +3,6 @@ function drawSun_InCanvas(sun_XPos, sun_YPos, sunRadius, rayNumber, rayLength, c
     var canv = document.getElementById(canvasId);
     var canvas_Context = canv.getContext("2d");
     //#endregion
-    //en extra kommentar
 
     //#region Paint sun border black
     canvas_Context.beginPath();
@@ -62,7 +61,8 @@ function drawSun_InCanvas(sun_XPos, sun_YPos, sunRadius, rayNumber, rayLength, c
     }
 }
 
-function paintCanvas_From_WeatherSymbolNumber(weatherSymbolNumber){
+function paintCanvas_From_WeatherIcon(weatherIcon){
+    // paintCanvas_From_WeatherSymbolNumber
     //#region Select images
     let cloudSunImage = document.getElementById("cloud-sun-img");
     let forestFogImage = document.getElementById("forest-fog-2-img");
@@ -78,119 +78,92 @@ function paintCanvas_From_WeatherSymbolNumber(weatherSymbolNumber){
     let ctx = theCanvas.getContext("2d");
     //#endregion
 
-    //#region Clear the canvas before painting new "weatherSymbol-image"
+    //#region Clear the canvas before painting new "weatherIcon-image"
     ctx.clearRect(0, 0, theCanvas.width, theCanvas.height);
     //#endregion
 
-    //#region Paint the canvas with appropiate image depending on weathersymbolNumber
-    switch(weatherSymbolNumber){
-        case(1):
-        //1	Clear sky
+    //#region Paint the canvas with appropiate image depending on weatherIcon
+    switch(weatherIcon){
+        case("01d"):
+        //Clear sky
             drawSun_InCanvas(100, 100, 50, 14, 40, "weatherCanvas");
             break;
-        case(2):
-        //2	Nearly clear sky
+        case("01n"):
+        //Clear sky
             drawSun_InCanvas(100, 100, 50, 14, 40, "weatherCanvas");
             break;
-        case(3):
-        //3	Variable cloudiness
+
+        case("02d"):
+        //Few clouds
             ctx.drawImage(cloudSunImage,0,28);
             break;
-        case(4):
-        //4	Halfclear sky
+        case("02n"):
+        //Few clouds
             ctx.drawImage(cloudSunImage,0,28);
             break;
-        case(5):
-        //5	Cloudy sky
+            
+        case("03d"):
+        //Scattered clouds
             ctx.drawImage(overcastImage,0,33);
             break;
-        case(6):
-        //6	Overcast
+        case("03n"):
+        //Scattered clouds
             ctx.drawImage(overcastImage,0,33);
             break;
-        case(7):
-        //7	Fog
-            ctx.drawImage(forestFogImage,0,38);
+
+        case("04d"):
+        //Broken clouds
+            ctx.drawImage(overcastImage,0,33);
             break;
-        case(8):
-        //8	Light rain showers
-            ctx.drawImage(rainImage, 0, 32);
+        case("04n"):
+        //Broken clouds
+            ctx.drawImage(overcastImage,0,33);
             break;
-        case(9):
-        //9	Moderate rain showers
+
+        case("09d"):
+        //Shower rain
             ctx.drawImage(rainImage, 0, 31);
             break;
-        case(10):
-        //10 Heavy rain showers
-            ctx.drawImage(heavyRainImage,0,44);
-            break;
-        case(11):
-        //11 Thunderstorm
-            ctx.drawImage(thunderImage, 24, 0);
-            break;
-        case(12):
-        //12 Light sleet showers
-            ctx.drawImage(rainImage, 0, 33);
-            break;
-        case(13):
-        //13 Moderate sleet showers
-            ctx.drawImage(rainImage, 0, 33);
-            break;
-        case(14):
-        //14 Heavy sleet showers
-            ctx.drawImage(heavyRainImage, 0, 43);
-            break;
-        case(15):
-        //15 Light snow showers
-            ctx.drawImage(snowImage,0,38);
-            break;
-        case(16):
-        //16 Moderate snow showers
-            ctx.drawImage(snowImage,0,38);
-            break;
-        case(17):
-        //17 Heavy snow showers
-            ctx.drawImage(snowImage,0,38);
-            break;
-        case(18):
-        //18 Light rain
+        case("09n"):
+        //Shower rain
             ctx.drawImage(rainImage, 0, 32);
             break;
-        case(19):
-        //19 Moderate rain
+            
+        case("10d"):
+        //Rain
             ctx.drawImage(rainImage, 0, 32);
             break;
-        case(20):
-        //20 Heavy rain
-            ctx.drawImage(heavyRainImage,0,44);
+        case("10n"):
+        //Rain
+            console.log("inne i case('10n')");
+            ctx.drawImage(rainImage, 0, 32);
             break;
-        case(21):
-        //21 Thunder
+
+        case("11d"):
+        //Thunderstorm
             ctx.drawImage(thunderImage, 24,0);
             break;
-        case(22):
-        //22 Light sleet
-            ctx.drawImage(rainImage,0,33);
+        case("11n"):
+        //Thunderstorm
+            ctx.drawImage(thunderImage, 24,0);
             break;
-        case(23):
-        //23 Moderate sleet
-            ctx.drawImage(rainImage,0,33);
-            break;
-        case(24):
-        //24 Heavy sleet
-            ctx.drawImage(heavyRainImage,0,44);
-            break;
-        case(25):
-        //25 Light snowfall
+
+        case("13d"):
+        //Snow
             ctx.drawImage(snowImage,0,38);
             break;
-        case(26):
-        //26 Moderate snowfall   
+        case("13n"):
+        //Snow
             ctx.drawImage(snowImage,0,38);
             break;
-        case(27):
-        //27 Heavy snowfall
-            ctx.drawImage(snowImage,0,38);
+
+        case("50d"):
+        //Mist
+            ctx.drawImage(forestFogImage,0,38);
+            break;
+        case("50n"):
+        //Mist
+            ctx.drawImage(forestFogImage,0,38);
             break;
 
     }

@@ -1,0 +1,1 @@
+// updateWeatherData_LongLat(15, 60);

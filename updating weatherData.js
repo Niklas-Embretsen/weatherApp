@@ -1,4 +1,4 @@
-function Update_MainWeatherDiv(weatherObj, location) {
+function update_MainWeatherDiv(weatherObj) {
     //#region Select weatherDiv-paragraphs
     let dateParagraph = document.getElementById("date_CurrentDay");
     let timeParagraph = document.getElementById("time_CurrentDay");
@@ -11,113 +11,128 @@ function Update_MainWeatherDiv(weatherObj, location) {
     //#endregion
 
     //#region Helpvariables
-    let timeSeries_CurrentDay = weatherObj.timeSeries[0];
-    //"timeSeries_CurrentDay" contains weatherData for the closest hour. 
-    //For example if weatherData was requested 19:30 then the first timeSeries-element would give data for 20:00.
+    let weatherElement_CurrentDay = weatherObj.list[0];
+    //"weatherElement_CurrentDay" contains weatherData for the closest hour. 
 
-    let currentTime = getValidTimeFrom_TimeSeriesElement(timeSeries_CurrentDay);
-    let longitude = weatherObj.geometry.coordinates[0][0];
-    let latitude = weatherObj.geometry.coordinates[0][1];
-    let weatherSymbolNumber = getWeatherSymbolFrom_TimeSeriesElement(timeSeries_CurrentDay);
-    let minTemperature_CurrentDay = getMinTemperature_ForEachDay(weatherObj, 0, 0)[0];
-    let maxTemperature_CurrentDay = getMaxTemperature_ForEachDay(weatherObj, 0, 0)[0];
+    let currentTime = getTime(weatherElement_CurrentDay);
+    // let longitude = getLongitude(weatherElement_CurrentDay);
+    let longitude = getLongitude(weatherObj);
+    
+    // let latitude = getLatitude(weatherElement_CurrentDay);
+    let latitude = getLatitude(weatherObj);
+    
+    let weatherSymbolNumber = getWeatherSymbol(weatherElement_CurrentDay);
+    let minTemperature_CurrentDay = get_MinTemperature_EachDay(weatherObj, 0, 0)[0];
+    let maxTemperature_CurrentDay = get_MaxTemperature_EachDay(weatherObj, 0, 0)[0];
     //#endregion
 
     //#region Set weatherInfo-paragraphs in weatherDiv
     dateParagraph.innerHTML = currentTime.toDateString();
     timeParagraph.innerHTML = currentTime.toLocaleTimeString();
-    locationParagraph.innerHTML = location;
+    locationParagraph.innerHTML = getCityName(weatherObj);
     coordinatesParagraph.innerHTML = `(longitude, latitude):<br>(${longitude}, ${latitude})`;
-    tempParagraph.innerHTML = getTemperatureFrom_TimeSeriesElement(timeSeries_CurrentDay) + "&#8451";
+    tempParagraph.innerHTML = getTemperature(weatherElement_CurrentDay) + "&#8451";
     //&#8451 ads "Celsius degree"-character
-    windspeedParagraph.innerHTML = getWindSpeedFrom_TimeSeriesElement(timeSeries_CurrentDay) + " m/s";
+    windspeedParagraph.innerHTML = getWindSpeed(weatherElement_CurrentDay) + " m/s";
     minTemperatureParagraph.innerHTML = "min temperature: " + minTemperature_CurrentDay + "&#8451";
     maxTemperatureParagraph.innerHTML = "max temperature: " + maxTemperature_CurrentDay + "&#8451";
     //#endregion
 
-    paintCanvas_From_WeatherSymbolNumber(weatherSymbolNumber);
+    paintCanvas_From_WeatherIcon(weatherSymbolNumber);
 }
 
-function updateSmall_WeatherDivs(weatherObj){
+function update_SmallWeatherDivs(weatherObj){
 
-    let timeSeries = weatherObj.timeSeries;
-    let earliestTimeSeries = timeSeries[0];
-    let dateObj_EarliestTimeSeries = getValidTimeFrom_TimeSeriesElement(earliestTimeSeries);
-    let hours_FirstTimeSeries = dateObj_EarliestTimeSeries.getHours();
-    //If for example the earlieast timeSerie had weather-info for "2021-10-09 17:00", then 
-    //"hours_FirstTimeSeries" = 17. 
+    let weatherElements = weatherObj.list;
+    let firstWeatherElement = weatherElements[0];
+    let time_FirstWeatherElement = getTime(firstWeatherElement);
+    let hours_FirstWeatherElement = time_FirstWeatherElement.getHours();
+    //If for example "firstWeatherElement" had weather-info for "2021-10-09 17:00", then 
+    //"hours_FirstWeatherElement" = 17. 
 
-    //#region (Find indexes of timeSeries)  (Where the time is 12:00) (For all days available)
-    let indexesTimeSeries_Time12 = getIndexes_WhereValidTimeIs12(weatherObj);
+    //#region (Find indexes of WeatherElements)  (Where the time is 12:00) (For all days available)
+    let index_WeatherElement_WhereTime12_EachDay = get_Index_WeatherElement_WhereTime12_EachDay(weatherObj);
     //#endregion
     
-    //#region (Find indexes of timeSeries)  (Where the time is 12:00) (From day2 until day6)
-    let timeSeriesIndexes_Time12_Day2UntilDay6;
-    if(hours_FirstTimeSeries <= 12){
-        timeSeriesIndexes_Time12_Day2UntilDay6 = indexesTimeSeries_Time12.slice(1, 6);
+    //#region (Find indexes of WeatherElements)  (Where the time is 12:00) (From day2 until day5)
+    let index_WeatherElement_WhereTime12_Day2UntilDay5;
+    if(hours_FirstWeatherElement <= 12){
+        index_WeatherElement_WhereTime12_Day2UntilDay5 = index_WeatherElement_WhereTime12_EachDay.slice(1, 5);
     }
     else{
-        timeSeriesIndexes_Time12_Day2UntilDay6 = indexesTimeSeries_Time12.slice(0,5);
+        index_WeatherElement_WhereTime12_Day2UntilDay5 = index_WeatherElement_WhereTime12_EachDay.slice(0,4);
     }
     //#endregion
 
-    //#region (Find min- and max-temperatures for each day)  (From day2 until day6)
-    let minTemperatures_Day2UntilDay6 = getMinTemperature_ForEachDay(weatherObj, 1, 5);
-    let maxTemperatures_Day2UntilDay6 = getMaxTemperature_ForEachDay(weatherObj, 1, 5);
+    //#region (Find min- and max-temperatures for each day)  (From day2 until day5)
+    let minTemperature_Day2Untilday5 = get_MinTemperature_EachDay(weatherObj, 1, 4);
+    let maxTemperature_Day2Untilday5 = get_MaxTemperature_EachDay(weatherObj, 1, 4);
     //#endregion
-
-    let allSmallWeatherDivs = document.querySelectorAll("#weatherDivContainer div");
 
     //#region HelpVariables for "for-loop".
-    let smallWeatherDiv;
-    let dateObj_ForDayI;
-    let timeSerie_ForDayI;
-    let timeSerieIndex_ForDayI;
-    let weatherSymbolNumber_ForDayI;
+    let allSmallWeatherDivs = document.querySelectorAll("#weatherDivContainer div");
+    let smallWeatherDivI;
+    let time_SmallWeatherDivI;
+    let weatherElement_SmallWeatherDivI;
+    let index_WeatherElement_SmallWeatherDivI;
+    let weatherSymbolNumber_SmallWeatherDivI;
     //#endregion
-    for(let i = 0; i < 5; i++){
-        smallWeatherDiv = allSmallWeatherDivs[i];
+    for(let i = 0; i < 4; i++){
+        smallWeatherDivI = allSmallWeatherDivs[i];
 
-        timeSerieIndex_ForDayI = timeSeriesIndexes_Time12_Day2UntilDay6[i];
-        timeSerie_ForDayI = timeSeries[timeSerieIndex_ForDayI];
-        dateObj_ForDayI = getValidTimeFrom_TimeSeriesElement(timeSerie_ForDayI);
+        index_WeatherElement_SmallWeatherDivI = index_WeatherElement_WhereTime12_Day2UntilDay5[i];
+        weatherElement_SmallWeatherDivI = weatherElements[index_WeatherElement_SmallWeatherDivI];
+        time_SmallWeatherDivI = getTime(weatherElement_SmallWeatherDivI);
 
-        weatherSymbolNumber_ForDayI = getWeatherSymbolFrom_TimeSeriesElement(timeSerie_ForDayI);
-        //#region Update paragraphs in "smallWeatherDiv".
-        smallWeatherDiv.getElementsByClassName("dayParagraph")[0].innerHTML = dateObj_ForDayI.toDateString();
-        smallWeatherDiv.getElementsByClassName("timeParagraph")[0].innerHTML = dateObj_ForDayI.toLocaleTimeString();
-        smallWeatherDiv.getElementsByClassName("temperatureParagraph")[0].innerHTML = getTemperatureFrom_TimeSeriesElement(timeSerie_ForDayI) + "&#8451";
+        weatherSymbolNumber_SmallWeatherDivI = getWeatherSymbol(weatherElement_SmallWeatherDivI);
+        //#region Update paragraphs in "smallWeatherDivI".
+        smallWeatherDivI.getElementsByClassName("dayParagraph")[0].innerHTML = time_SmallWeatherDivI.toDateString();
+        smallWeatherDivI.getElementsByClassName("timeParagraph")[0].innerHTML = time_SmallWeatherDivI.toLocaleTimeString();
+        smallWeatherDivI.getElementsByClassName("temperatureParagraph")[0].innerHTML = getTemperature(weatherElement_SmallWeatherDivI) + "&#8451";
         //&#8451 is hex-code for  "degree celsius"-character
-        smallWeatherDiv.getElementsByClassName("windspeedParagraph")[0].innerHTML = getWindSpeedFrom_TimeSeriesElement(timeSerie_ForDayI) + " m/s";
-        smallWeatherDiv.getElementsByClassName("weatherSymbolParagraph")[0].innerHTML = getWeatherIcon_From_WeatherSymbolNumber(weatherSymbolNumber_ForDayI);
-        smallWeatherDiv.getElementsByClassName("minTemperatureParagraph")[0].innerHTML = "min temperature<br>" + minTemperatures_Day2UntilDay6[i] + "&#8451";
-        smallWeatherDiv.getElementsByClassName("maxTemperatureParagraph")[0].innerHTML = "max temperature<br>" + maxTemperatures_Day2UntilDay6[i] + "&#8451";
+        smallWeatherDivI.getElementsByClassName("windspeedParagraph")[0].innerHTML = getWindSpeed(weatherElement_SmallWeatherDivI) + " m/s";
+        smallWeatherDivI.getElementsByClassName("weatherSymbolParagraph")[0].innerHTML = get_FontAwesomeWeatherIcon(weatherSymbolNumber_SmallWeatherDivI);
+        smallWeatherDivI.getElementsByClassName("minTemperatureParagraph")[0].innerHTML = "min temperature<br>" + minTemperature_Day2Untilday5[i] + "&#8451";
+        smallWeatherDivI.getElementsByClassName("maxTemperatureParagraph")[0].innerHTML = "max temperature<br>" + maxTemperature_Day2Untilday5[i] + "&#8451";
         //#endregion
     }
 }
 
-async function updateWeatherData_WithInputFields() {
-    //#region Read values from input fields for longitude, latitude and location.
-    let longitudeInput = document.getElementById("longitude");
-    let latitudeInput = document.getElementById("latitude");
+async function update_Weather_WithInput_LongLat() {
+    //#region Read values from input fields for longitude and latitude.
+    let longitudeInput = document.getElementById("longitude_Input");
+    let latitudeInput = document.getElementById("latitude_Input");
 
     let longitudeVal = longitudeInput.value;
     let latitudeVal = latitudeInput.value;
+    //#endregion
 
-    let location_InputField = document.getElementById("location_InputField");
-    let location = location_InputField.value;
-    if(location == ""){
-    location = "Location not specified";
+    update_Weather_LongLat(longitudeVal, latitudeVal);
+}
+
+async function update_Weather_WithInput_City() {
+    //#region Read values from input-field for cityName.
+    let cityName_Input = document.getElementById("city_Input");
+    let cityName = cityName_Input.value;
+    //#endregion
+
+    //#region Read values for input-field for country-code.
+    let countryCode_Input = document.getElementById("countryCode");
+    let countryCode;
+    if(countryCode_Input.value == ""){
+        countryCode = "SE";
+    } else {
+        countryCode = countryCode_Input.value;
     }
     //#endregion
 
-    updateWeatherData(longitudeVal, latitudeVal, location);
+    update_Weather_City(cityName, countryCode);
 }
 
-async function updateWeatherData(longitude, latitude, location){
+async function update_Weather_LongLat(longitude, latitude) {
 
-    let url_ForWeather = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + 
-        longitude + "/lat/" + latitude + "/data.json";
+    let url_ForWeather = 
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=48cd141d881e5d6dcf66c4675bdea5bf&units=metric`;
 
     fetch(url_ForWeather)
         .then(weatherData => weatherData.text())
@@ -127,12 +142,35 @@ async function updateWeatherData(longitude, latitude, location){
             //#endregion
 
             //#region update weather
-            updateSmall_WeatherDivs(weatherObj);
-            Update_MainWeatherDiv(weatherObj, location);
+            update_MainWeatherDiv(weatherObj);
+            update_SmallWeatherDivs(weatherObj);
             //#endregion
 
             //#region save current location in global variable "currentLocation_Glob"
-            currentLocation_Glob = create_LocationClassObj_FromWeatherObj(weatherObj, location);
+            currentLocation_Glob = create_LocationClassObj_FromWeatherObj(weatherObj);
+            //#endregion
+        })
+        .catch(error => {alert(error);});
+}
+
+async function update_Weather_City(city, countryCode) {
+
+    let url_ForWeather = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=48cd141d881e5d6dcf66c4675bdea5bf&units=metric`;
+    
+    fetch(url_ForWeather)
+        .then(weatherData => weatherData.text())
+        .then(weatherData_Text => {
+            //#region create JSON-object "weatherObj"
+            let weatherObj = JSON.parse(weatherData_Text);
+            //#endregion
+
+            //#region update weather
+            update_MainWeatherDiv(weatherObj);
+            update_SmallWeatherDivs(weatherObj);
+            //#endregion
+
+            //#region save current location in global variable "currentLocation_Glob"
+            currentLocation_Glob = create_LocationClassObj_FromWeatherObj(weatherObj);
             //#endregion
         })
         .catch(error => {alert(error);});

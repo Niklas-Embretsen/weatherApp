@@ -17,7 +17,7 @@ function loadWeatherData_ForCurrentLocation_OnLoad() {
 }
 
 function setLocation_ToCurrentPos(position) {
-    updateWeatherData((position.coords.longitude).toPrecision(8), (position.coords.latitude).toPrecision(8), "pos:(" + (new Date()).toLocaleString() + ")<br>");
+    update_Weather_LongLat((position.coords.longitude), (position.coords.latitude));
 }
 
 function errorFunction(error) {
@@ -39,5 +39,5 @@ function errorFunction(error) {
 }
 
 function setLocation_ToGavle(){
-    updateWeatherData(17.151188, 60.676245, "Gävle");
+  update_Weather_City("Gävle");
 }

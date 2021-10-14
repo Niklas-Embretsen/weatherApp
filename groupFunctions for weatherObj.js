@@ -1,24 +1,32 @@
-function groupIndexes_BySameDay(weatherObj) {
-    let timeSeries = weatherObj.timeSeries;
-    validTimes_InTimeSeries = timeSeries.map(timeSeries_Element => {return getValidTimeFrom_TimeSeriesElement(timeSeries_Element)});
-    
-    // return validTimes_InTimeSeries[1];
-    //#region helpvariables for for-loop
-    let previousDay = validTimes_InTimeSeries[0].getDate();
-    let currentDay = 0;//0 is arbitrary value. I just want to declare currentDay here.
-    let Index_WithSameDay = [];
-    let groupsOf_Index_WithSameDay = [];
+function get_Index_WeatherElements_EachDay(weatherObj) {
+    let weatherElements = weatherObj.list;
+
+    //#region Get the time for each weatherElement
+    let time_WeatherElements = weatherElements.map(weatherElement => 
+        {return getTime(weatherElement)});
     //#endregion
-    for(let i = 0; i < validTimes_InTimeSeries.length; i++){
-        currentDay = validTimes_InTimeSeries[i].getDate();
+
+    //#region helpvariables for for-loop
+    let previousDay = time_WeatherElements[0].getDate();
+    let currentDay;
+    let index_WeatherElements = [];
+    let index_WeatherElements_EachDay = [];
+    //#endregion
+    for(let i = 0; i < time_WeatherElements.length; i++){
+        currentDay = time_WeatherElements[i].getDate();
         if(currentDay == previousDay){
-            Index_WithSameDay.push(i);
+            index_WeatherElements.push(i);
         }
         else {
-            groupsOf_Index_WithSameDay.push(Index_WithSameDay);
-            Index_WithSameDay = [i];
+            index_WeatherElements_EachDay.push(index_WeatherElements);
+            index_WeatherElements = [i];
+            previousDay = currentDay;
         }
-        previousDay = currentDay;
+
+        if(i == time_WeatherElements.length - 1){
+            index_WeatherElements_EachDay.push(index_WeatherElements);
+        }
+        
     }
-    return groupsOf_Index_WithSameDay;
+    return index_WeatherElements_EachDay;
 }

@@ -55,9 +55,3 @@ function createWeatherDiv(){
 
     return weatherDiv;
 }
-
-for(let i = 0; i < 5; i++){
-    //#region Append 5 weatherDivs into weatherDivContainer
-    weatherDivContainer.appendChild(createWeatherDiv());
-    //#endregion
-}

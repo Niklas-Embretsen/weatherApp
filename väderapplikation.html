@@ -39,21 +39,35 @@
         <div>
             <form id="inputForm">
                 <fieldset>
-                    <legend>Location for forecast</legend>
-        
-                    <input type="number" id="longitude" name="longitude">
-                    <label for="longitude">Longitude</label><br>
-        
-                    <input type="number" id="latitude" name="latitude">
-                    <label for="latitude">Latitude</label><br>
-        
-                    <input type="text" id="location_InputField" name="location_InputField">
-                    <label for="location_InputField">name of location</label><br>
+                    <legend>Get forecast</legend>
 
-                    <button type="button" onclick="updateWeatherData_WithInputFields()">get weather-data</button><br>
+                    <fieldset>
+                        <legend>Weather for (longitude, latitude)</legend>
+                    
+                        <input type="number" id="longitude_Input" name="longitude_Input">
+                        <label for="longitude_Input">Longitude</label><br>
+                    
+                        <input type="number" id="latitude_Input" name="latitude_Input">
+                        <label for="latitude_Input">Latitude</label><br>
+    
+                        <button type="button" onclick="update_Weather_WithInput_LongLat()">get weather for coordinates</button><br>
+                    </fieldset>
+    
+                    <fieldset>
+                        <legend>Weather for city</legend>
+                    
+                        <input type="text" id="city_Input" name="city_Input">
+                        <label for="city_Input">City</label><br>
+
+                        <input type="text" id="countryCode" name="countryCode_Input">
+                        <label for="countryCode_Input">Country-code</label><br>
+                        <label>If no country-code is specified <br> "SE" (Sweden) will be default.</label><br>
+    
+                        <button type="button" onclick="update_Weather_WithInput_City()">get weather for city</button><br>
+                    </fieldset>
+
                     <button type="button" onclick="loadWeatherData_ForCurrentLocation_OnClick()">get weather-data from your current location</button><br>
                     <button type="button" onclick="saveSelected_Location()">save selected location</button><br>
-
                     <input type="checkbox" id="detailedWeather" name="detailedWeather" onchange="detailedWeatherFunc_ForCheckbox(this)">
                     <label for="detailedWeather">Detailed wheaterforecast</label>
                 </fieldset>
@@ -77,7 +91,7 @@
     <script src="detailedWeather_Checkbox.js"></script>
     <script src="getFunctions for weatherData.js"></script>
     <script src="global variables.js"></script>
-    <script src="groupFunctions for weatherObj.js"></script>
+    <script src="groupFunctions for weatherObj.js"> </script>
     <script src="loadWeatherData_CurrentLoc.js"></script>
     <script src="localStorageFunctions.js"></script>
     <script src="location class.js"></script>
@@ -85,6 +99,7 @@
     <script src="removeSelectedLocations.js"></script>
     <script src="saveSelectedLocation.js"></script>
     <script src="updating weatherData.js"></script>
+    <script src="functions used at start.js"></script>
     <!--#endregion-->
 
 </body>

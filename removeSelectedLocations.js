@@ -20,8 +20,6 @@ function removeSelectedLocations() {
         if(checkboxIn_LocationDiv.checked == true){
             locationDiv.remove();
             indexesOfLocations_ThatAreRemoved.push(i);
-            // console.log(i);
-            // console.log(indexesOfLocations_ThatAreRemoved.length);
         }
         //#endregion
     }
